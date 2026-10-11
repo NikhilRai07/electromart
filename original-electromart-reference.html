@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElectroMart | Next-Gen Electronics Store</title>
+
+<style>
+/* ================= CSS (Enhanced & Modernized) ================= */
+:root {
+    --bg-main: #f5f7fb;
+    --bg-card: #ffffff;
+    --text-main: #172033;
+    --text-muted: #777;
+    --header-grad: linear-gradient(135deg,#17112f,#3b267d);
+    --border-color: #eee;
+}
+[data-theme="dark"] {
+    --bg-main: #0f111a;
+    --bg-card: #1a1c29;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --header-grad: linear-gradient(135deg,#090a0f,#1e1b4b);
+    --border-color: #2d3748;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
+body{background:var(--bg-main);color:var(--text-main); overflow-x: hidden; transition: background 0.3s, color 0.3s;}
+button,input,select,textarea{font-family:inherit;}
+button{cursor:pointer;}
+
+/* HEADER */
+header{background:var(--header-grad);color:white;position:sticky;top:0;z-index:1000;box-shadow:0 4px 18px rgba(0,0,0,.2);}
+.topbar{max-width:1400px;margin:auto;padding:16px 25px;display:flex;align-items:center;gap:20px;}
+.logo{font-size:29px;font-weight:900;white-space:nowrap; cursor:pointer;}
+.logo span{color:#ff8a00;}
+.search{flex:1;display:flex;background:white;border-radius:8px;overflow:hidden;max-width:600px;}
+.search input{width:100%;border:none;outline:none;padding:13px 16px;font-size:15px;color:#222;}
+.search button{border:0;background:#ff8a00;color:white;padding:0 20px;font-size:18px;}
+.header-actions{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.action-btn,.cart-btn{padding:10px 12px;border-radius:7px;font-weight:bold; transition:0.2s; font-size: 13px;}
+.action-btn{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:white;}
+.action-btn:hover{background:rgba(255,255,255,.2);}
+.cart-btn{border:0;background:#ff8a00;color:white;}
+.cart-btn:hover{background:#e67a00;}
+.nav{max-width:1400px;margin:auto;padding:0 25px 15px;display:flex;gap:25px;overflow-x:auto;}
+.nav button{border:0;background:none;color:white;white-space:nowrap;font-size:14px; transition:0.2s;}
+.nav button:hover{color:#ff9b26;}
+
+/* HERO & MAIN */
+.container{max-width:1400px;margin:auto;padding:0 25px 40px;}
+.hero{max-width:1400px;margin:25px auto;padding:70px 50px;border-radius:18px;background:linear-gradient(135deg,#20134a,#4a2c99);color:white;}
+.hero h1{font-size:46px;max-width:700px;line-height:1.1;margin-bottom:18px;}
+.hero h1 span{color:#ff8a00;}
+.hero p{font-size:18px;color:#ddd;max-width:650px;line-height:1.6;margin-bottom:25px;}
+.hero button{border:0;background:#ff8a00;color:white;padding:13px 23px;border-radius:8px;font-weight:bold;font-size:16px;}
+.hero button:hover{background:#e67a00;}
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;}
+.feature{background:var(--bg-card);padding:20px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.06); border: 1px solid var(--border-color);}
+.feature-icon{font-size:28px;margin-bottom:8px;}
+.feature h3{font-size:16px;margin-bottom:5px; color:var(--text-main);}
+.feature p{color:var(--text-muted);font-size:13px;}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:35px 0 18px;}
+.categories{display:grid;grid-template-columns:repeat(6,1fr);gap:15px;}
+.category{background:var(--bg-card);padding:22px 10px;text-align:center;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.06);border:2px solid transparent;transition:.2s;cursor:pointer;}
+.category:hover{transform:translateY(-3px);border-color:#ff8a00;}
+.category .icon{font-size:35px;margin-bottom:8px;}
+.category h3{font-size:14px; color:var(--text-main);}
+
+/* PRODUCTS */
+.products{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;}
+.product{background:var(--bg-card);border-radius:12px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.07);transition:.2s;position:relative;border:1px solid var(--border-color);}
+.product:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(0,0,0,.1);}
+.product img{width:100%;height:190px;object-fit:cover;background:#eee;cursor:pointer;}
+.product-body{padding:15px;}
+.product-category{color:var(--text-muted);font-size:11px;text-transform:uppercase;margin-bottom:7px;}
+.product h3{font-size:15px;min-height:36px;margin-bottom:6px; cursor:pointer; color:var(--text-main);}
+.product h3:hover{color:#ff8a00;}
+.rating{color:#f59e0b;font-size:13px;margin-bottom:8px;}
+.price{font-size:19px;font-weight:900;margin-bottom:10px; color:var(--text-main);}
+.product-actions{display:flex;gap:8px;}
+.add-btn{flex:1;border:0;background:#ff8a00;color:white;padding:10px;border-radius:7px;font-weight:bold;transition:0.2s;font-size:13px;}
+.add-btn:hover{background:#e67a00;}
+.wishlist-btn{background:none;border:1px solid var(--border-color);border-radius:7px;padding:0 10px;font-size:18px;cursor:pointer;transition:0.2s;}
+.wishlist-btn.active{background:#fee2e2;border-color:#ef4444;color:#ef4444;}
+
+/* MODALS & OVERLAYS */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:3000;display:none;justify-content:center;align-items:center;padding:20px;}
+.modal{background:var(--bg-card);color:var(--text-main);width:100%;max-width:420px;max-height:92vh;overflow:auto;border-radius:15px;padding:25px;position:relative;box-shadow:0 10px 30px rgba(0,0,0,0.3);}
+.modal.large{max-width:850px;}
+.close{position:absolute;right:15px;top:15px;border:0;background:none;font-size:26px;color:var(--text-main);cursor:pointer;}
+.modal h2{margin-bottom:15px;}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px;}
+.form-group input{width:100%;padding:11px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);border-radius:7px;outline:none;}
+.primary{width:100%;border:0;background:#3b267d;color:white;padding:12px;border-radius:7px;font-weight:bold;}
+.orange{background:#ff8a00;}
+
+/* SLIDERS / DRAWERS (Cart & Wishlist & Orders) */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:none;}
+.drawer{position:fixed;right:-100%;top:0;height:100vh;width:420px;max-width:100%;background:var(--bg-card);color:var(--text-main);z-index:2500;display:flex;flex-direction:column;box-shadow:-8px 0 30px rgba(0,0,0,.2);transition: right 0.3s ease;}
+.drawer.open{right:0;}
+.drawer-header{padding:18px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;}
+.drawer-body{flex:1;overflow:auto;padding:15px;}
+.drawer-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-color);align-items:center;}
+.drawer-item img{width:65px;height:65px;object-fit:cover;border-radius:8px;}
+.drawer-info{flex:1;}
+.drawer-info h4{font-size:14px;margin-bottom:4px;}
+.qty{display:flex;align-items:center;gap:8px;margin-top:6px;}
+.qty button{width:25px;height:25px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);border-radius:4px;}
+.remove{border:0;background:none;color:#dc2626;font-size:12px;margin-top:4px;font-weight:bold;cursor:pointer;}
+.drawer-footer{border-top:1px solid var(--border-color);padding:18px;background:var(--bg-main);}
+.total{display:flex;justify-content:space-between;font-size:18px;font-weight:bold;margin-bottom:12px;}
+
+/* COUPON SECTION */
+.coupon-box{display:flex;gap:8px;margin-bottom:12px;}
+.coupon-box input{flex:1;padding:8px 10px;border:1px solid var(--border-color);border-radius:6px;background:var(--bg-card);color:var(--text-main);font-size:13px;}
+.coupon-box button{background:#3b267d;color:white;border:none;padding:0 12px;border-radius:6px;font-weight:bold;font-size:12px;}
+
+/* FOOTER */
+footer{background:#17112f;color:white;padding:30px;text-align:center;margin-top:40px;}
+
+/* CHATBOT */
+#chatbotBtn{position:fixed;bottom:25px;right:25px;background:#ff8a00;color:white;border:none;padding:15px 20px;border-radius:50px;font-size:15px;font-weight:bold;box-shadow:0 4px 15px rgba(0,0,0,0.3);z-index:4000;display:flex;align-items:center;gap:8px;transition:0.3s;}
+#chatbotBtn:hover{transform:translateY(-4px);}
+#chatWindow{position:fixed;bottom:90px;right:25px;width:320px;background:var(--bg-card);color:var(--text-main);border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:4000;display:none;flex-direction:column;overflow:hidden;border:1px solid var(--border-color);}
+.chat-header-bot{background:linear-gradient(135deg,#17112f,#3b267d);color:white;padding:14px;display:flex;justify-content:space-between;align-items:center;}
+.chat-header-bot h3{font-size:14px;}
+.chat-header-bot button{background:none;border:none;color:white;font-size:20px;}
+.chat-body{height:280px;padding:12px;overflow-y:auto;background:var(--bg-main);display:flex;flex-direction:column;gap:10px;}
+.msg{padding:9px 12px;border-radius:10px;font-size:13px;max-width:85%;line-height:1.4;}
+.bot-msg{background:var(--bg-card);border:1px solid var(--border-color);align-self:flex-start;}
+.user-msg{background:#3b267d;color:white;align-self:flex-end;}
+.chat-input-area{display:flex;padding:10px;background:var(--bg-card);border-top:1px solid var(--border-color);}
+.chat-input-area input{flex:1;padding:8px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);border-radius:6px;outline:none;font-size:13px;}
+.chat-input-area button{background:#ff8a00;color:white;border:none;padding:0 12px;margin-left:6px;border-radius:6px;font-weight:bold;font-size:13px;}
+
+/* Toast */
+#toast{visibility:hidden;min-width:240px;background:#333;color:#fff;text-align:center;border-radius:6px;padding:14px;position:fixed;z-index:6000;left:50%;bottom:30px;transform:translateX(-50%);font-size:14px;}
+#toast.show{visibility:visible;animation:fadein 0.4s, fadeout 0.4s 2.4s;}
+@keyframes fadein{from{bottom:0;opacity:0;} to{bottom:30px;opacity:1;}}
+@keyframes fadeout{from{bottom:30px;opacity:1;} to{bottom:0;opacity:0;}}
+
+@media(max-width:1100px){.products{grid-template-columns:repeat(4,1fr);}.categories{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:800px){.topbar{flex-wrap:wrap;}.search{order:3;flex-basis:100%;max-width:none;}.features{grid-template-columns:repeat(2,1fr);}.products{grid-template-columns:repeat(2,1fr);}.categories{grid-template-columns:repeat(3,1fr);}}
+
+/* ================= NEW FEATURES CSS ================= */
+
+/* --- Currency switcher + hero tag --- */
+.currency-select{padding:10px 8px;border-radius:7px;font-weight:bold;font-size:13px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:white;cursor:pointer;outline:none;}
+.currency-select option{color:#172033;background:#fff;}
+.hero-tag{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:6px 14px;border-radius:30px;font-size:14px;margin-bottom:18px;}
+.hero-tag b{color:#ff8a00;}
+
+/* --- Filter bar --- */
+.filter-bar{background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:16px 18px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:18px 30px;align-items:flex-end;box-shadow:0 4px 15px rgba(0,0,0,.05);}
+.filter-group{display:flex;flex-direction:column;gap:7px;min-width:150px;}
+.filter-group.grow{flex:1;min-width:240px;}
+.filter-label{font-size:12px;font-weight:bold;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;}
+.price-readout{font-size:14px;font-weight:bold;}
+.range-wrap{position:relative;height:26px;}
+.range-track{position:absolute;top:11px;left:0;right:0;height:4px;border-radius:4px;background:var(--border-color);}
+.range-fill{position:absolute;height:100%;background:#ff8a00;border-radius:4px;}
+.range-wrap input[type=range]{position:absolute;left:0;top:0;width:100%;height:26px;margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none;}
+.range-wrap input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:18px;height:18px;border-radius:50%;background:#ff8a00;border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.4);cursor:pointer;}
+.range-wrap input[type=range]::-moz-range-thumb{pointer-events:auto;width:12px;height:12px;border-radius:50%;background:#ff8a00;border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.4);cursor:pointer;}
+.range-wrap input[type=range]::-webkit-slider-runnable-track{background:transparent;}
+.range-wrap input[type=range]::-moz-range-track{background:transparent;}
+.chips{display:flex;gap:6px;flex-wrap:wrap;}
+.chip{border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);padding:7px 12px;border-radius:20px;font-size:13px;font-weight:bold;transition:.2s;}
+.chip:hover{border-color:#ff8a00;}
+.chip.active{background:#ff8a00;border-color:#ff8a00;color:#fff;}
+.filter-select{padding:9px 10px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-main);border-radius:7px;font-size:13px;outline:none;}
+.reset-btn{background:none;border:1px solid var(--border-color);color:var(--text-main);padding:9px 14px;border-radius:7px;font-size:13px;font-weight:bold;}
+.reset-btn:hover{border-color:#ef4444;color:#ef4444;}
+.result-count{font-size:13px;color:var(--text-muted);margin-bottom:12px;}
+
+/* --- Product card extras --- */
+.emi-hint{font-size:12px;color:#10b981;font-weight:bold;margin:-4px 0 10px;}
+.compare-label{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);margin-top:10px;cursor:pointer;user-select:none;}
+.compare-label input{accent-color:#ff8a00;cursor:pointer;}
+.product.comparing{border-color:#ff8a00;box-shadow:0 0 0 2px rgba(255,138,0,.35);}
+
+/* --- Compare bar + modal --- */
+#compareBar{position:fixed;left:25px;right:200px;bottom:25px;z-index:3500;background:var(--header-grad);color:#fff;border-radius:14px;padding:12px 16px;display:none;align-items:center;gap:14px;box-shadow:0 8px 30px rgba(0,0,0,.35);flex-wrap:wrap;}
+#compareBar.show{display:flex;}
+.cmp-thumbs{display:flex;gap:10px;flex:1;flex-wrap:wrap;align-items:center;}
+.cmp-count{font-size:12px;opacity:.8;font-weight:bold;}
+.cmp-thumb{position:relative;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border-radius:8px;padding:5px 28px 5px 5px;font-size:12px;max-width:190px;}
+.cmp-thumb img{width:44px;height:44px;object-fit:cover;border-radius:6px;background:#e5e7eb;}
+.cmp-thumb span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cmp-thumb button{position:absolute;right:5px;top:50%;transform:translateY(-50%);background:none;border:0;color:#fff;font-size:16px;}
+.cmp-actions{display:flex;gap:8px;}
+.cmp-go{background:#ff8a00;color:#fff;border:0;padding:10px 16px;border-radius:8px;font-weight:bold;font-size:13px;}
+.cmp-go:disabled{opacity:.5;cursor:not-allowed;}
+.cmp-clear{background:rgba(255,255,255,.15);color:#fff;border:0;padding:10px 14px;border-radius:8px;font-size:13px;}
+.modal.xl{max-width:1000px;}
+.cmp-table-wrap{overflow-x:auto;margin-top:10px;}
+.cmp-table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px;}
+.cmp-table th,.cmp-table td{padding:11px 10px;border-bottom:1px solid var(--border-color);text-align:left;vertical-align:top;}
+.cmp-table th.row-h{width:130px;color:var(--text-muted);font-size:12px;text-transform:uppercase;}
+.cmp-table tr.diff td{background:rgba(255,138,0,.09);}
+.cmp-table td.best{color:#10b981;font-weight:bold;}
+.cmp-table img{width:100%;max-width:200px;height:150px;object-fit:cover;border-radius:10px;background:#e5e7eb;}
+.cmp-section th{background:var(--bg-main);font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:#ff8a00;padding:9px 10px;}
+.score{display:flex;align-items:center;gap:8px;}
+.score-bar{flex:1;height:7px;border-radius:4px;background:var(--border-color);overflow:hidden;min-width:50px;}
+.score-bar i{display:block;height:100%;background:#ff8a00;border-radius:4px;}
+.cmp-table td.best .score-bar i{background:#10b981;}
+.cmp-legend{font-size:12px;color:var(--text-muted);margin-top:12px;}
+
+/* --- Order tracker --- */
+.order-card{border:1px solid var(--border-color);border-radius:10px;padding:16px;margin-bottom:14px;background:var(--bg-main);}
+.order-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:bold;margin-bottom:6px;}
+.order-meta{font-size:12px;color:var(--text-muted);margin-bottom:10px;}
+.status-pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:bold;}
+.pill-active{background:rgba(16,185,129,.15);color:#10b981;}
+.pill-cancel{background:rgba(239,68,68,.15);color:#ef4444;}
+.tracker-scroll{overflow-x:auto;padding:6px 0 4px;}
+.tracker{display:flex;min-width:480px;margin:14px 0 6px;}
+.step{flex:1;position:relative;text-align:center;}
+.step:not(:first-child)::before{content:'';position:absolute;top:13px;left:-50%;width:100%;height:4px;background:var(--border-color);}
+.step.reached:not(:first-child)::before{background:#10b981;}
+.dot{position:relative;z-index:1;width:30px;height:30px;line-height:24px;margin:0 auto;border-radius:50%;background:var(--bg-card);border:3px solid var(--border-color);font-size:13px;color:var(--text-muted);}
+.step.reached .dot{background:#10b981;border-color:#10b981;color:#fff;}
+.step.current .dot{box-shadow:0 0 0 5px rgba(16,185,129,.25);animation:pulse 1.6s infinite;}
+.step.current.final .dot{animation:none;}
+.step-label{font-size:12px;font-weight:bold;margin-top:7px;}
+.step-date{font-size:11px;color:var(--text-muted);margin-top:2px;}
+@keyframes pulse{50%{box-shadow:0 0 0 9px rgba(16,185,129,.08);}}
+.cancel-btn{border:1px solid #ef4444;background:none;color:#ef4444;padding:8px 14px;border-radius:7px;font-weight:bold;font-size:12px;margin-top:10px;transition:.2s;}
+.cancel-btn:hover{background:#ef4444;color:#fff;}
+.cancel-note{font-size:12px;color:var(--text-muted);margin-top:10px;}
+.cancel-banner{background:rgba(239,68,68,.1);color:#ef4444;border-radius:8px;padding:10px 12px;font-size:13px;font-weight:bold;margin:10px 0 0;}
+
+/* --- Quick view: EMI + reviews --- */
+.qv-extra{flex-basis:100%;width:100%;border-top:1px solid var(--border-color);padding-top:18px;margin-top:6px;}
+.qv-extra h3{font-size:16px;margin-bottom:12px;}
+.emi-box{background:var(--bg-main);border:1px solid var(--border-color);border-radius:12px;padding:16px;margin-bottom:22px;}
+.emi-result{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
+.emi-cell{background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;padding:10px;text-align:center;}
+.emi-cell small{display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px;}
+.emi-cell b{font-size:16px;}
+.emi-note{font-size:11px;color:var(--text-muted);margin-top:10px;}
+.emi-badge{display:inline-block;background:#10b981;color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle;}
+.review-form{background:var(--bg-main);border:1px solid var(--border-color);border-radius:12px;padding:16px;margin-bottom:16px;}
+.review-form h4{margin-bottom:8px;}
+.review-form input,.review-form textarea{width:100%;padding:10px;border:1px solid var(--border-color);background:var(--bg-card);color:var(--text-main);border-radius:7px;outline:none;margin-bottom:10px;resize:vertical;}
+.star-input{font-size:30px;cursor:pointer;color:var(--border-color);margin-bottom:8px;user-select:none;line-height:1.1;}
+.star-input span.on{color:#f59e0b;}
+.review-item{border-bottom:1px solid var(--border-color);padding:12px 0;}
+.review-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;}
+.review-stars{color:#f59e0b;letter-spacing:1px;}
+.verified{background:rgba(16,185,129,.15);color:#10b981;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;}
+.review-text{font-size:14px;margin-top:6px;line-height:1.5;word-break:break-word;}
+.review-date{color:var(--text-muted);font-size:12px;margin-left:auto;}
+
+#discountLine{display:none;justify-content:space-between;font-size:13px;color:#10b981;font-weight:bold;margin-bottom:8px;}
+
+@media(max-width:800px){
+    #compareBar{left:15px;right:15px;bottom:85px;}
+    .filter-bar{gap:16px;}
+    .emi-result{gap:6px;}
+}
+</style>
+</head>
+<body data-theme="light">
+
+<header>
+    <div class="topbar">
+        <div class="logo" onclick="filterCategory('All')">Electro<span>Mart</span></div>
+        <div class="search">
+            <input id="searchInput" type="text" placeholder="Search gadgets, specs, brands..." onkeypress="if(event.key === 'Enter') executeSearch()">
+            <button onclick="executeSearch()">🔍</button>
+        </div>
+        <div class="header-actions">
+            <!-- Currency Switcher -->
+            <select class="currency-select" id="currencySelect" onchange="changeCurrency(this.value)" title="Currency (approximate rates)">
+                <option value="INR">₹ INR</option>
+                <option value="USD">$ USD</option>
+                <option value="EUR">€ EUR</option>
+                <option value="GBP">£ GBP</option>
+            </select>
+            <button class="action-btn" onclick="toggleTheme()" id="themeToggleBtn" title="Toggle Theme">🌙</button>
+            <span id="userNameDisplay" style="font-size:13px; font-weight:bold; display:none;"></span>
+            <button class="action-btn" id="loginBtn" onclick="openLoginModal()">👤 Login</button>
+            <button class="action-btn" id="logoutBtn" onclick="logoutUser()" style="display:none; background:#dc2626; border-color:#dc2626;">Log Out</button>
+            <button class="action-btn" id="ordersNavBtn" onclick="openOrdersModal()" style="display:none;">📦 Orders</button>
+            <button class="action-btn" onclick="toggleWishlistDrawer(true)">❤️ (<span id="wishlistCount">0</span>)</button>
+            <button class="cart-btn" onclick="toggleCartDrawer(true)">🛒 (<span id="cartCount">0</span>)</button>
+        </div>
+    </div>
+
+    <nav class="nav">
+        <button onclick="filterCategory('All')">Home</button>
+        <button onclick="filterCategory('Mobiles')">📱 Mobiles</button>
+        <button onclick="filterCategory('Laptops')">💻 Laptops</button>
+        <button onclick="filterCategory('TV')">📺 TV & Appliances</button>
+        <button onclick="filterCategory('Audio')">🎧 Audio</button>
+        <button onclick="filterCategory('Gaming')">🎮 Gaming</button>
+        <button onclick="filterCategory('Wearables')">⌚ Wearables</button>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="hero">
+        <h1>Next-Gen Tech & Gadgets at <span>ElectroMart</span></h1>
+        <p>Experience ultra-fast processors, stunning OLED displays, and immersive audio engineered for perfection.</p>
+        <div class="hero-tag">⚡ Gadgets starting at <b id="heroFrom"></b> · No-cost EMI available</div><br>
+        <button onclick="document.getElementById('productSection').scrollIntoView({behavior:'smooth'})">Explore Collection →</button>
+    </section>
+
+    <section class="features">
+        <div class="feature"><div class="feature-icon">🚚</div><h3>Lightning Delivery</h3><p>Same-day dispatch available.</p></div>
+        <div class="feature"><div class="feature-icon">🛡️</div><h3>Extended Warranty</h3><p>1-year brand warranty included.</p></div>
+        <div class="feature"><div class="feature-icon">💸</div><h3>Bargain AI Bot</h3><p>Chat with our bot for secret discounts!</p></div>
+        <div class="feature"><div class="feature-icon">⭐</div><h3>Verified Authentic</h3><p>100% genuine tech products.</p></div>
+    </section>
+
+    <div class="section-title" id="productSection">
+        <h2 id="productTitle">Featured Flagship Products</h2>
+    </div>
+
+    <!-- ================= FILTER BAR ================= -->
+    <div class="filter-bar" id="filterBar">
+        <div class="filter-group grow">
+            <span class="filter-label">Price Range</span>
+            <div class="price-readout" id="priceReadout"></div>
+            <div class="range-wrap">
+                <div class="range-track"><div class="range-fill" id="rangeFill"></div></div>
+                <input type="range" id="minPrice" min="0" max="170000" step="1000" value="0" oninput="onPriceChange('min')">
+                <input type="range" id="maxPrice" min="0" max="170000" step="1000" value="170000" oninput="onPriceChange('max')">
+            </div>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">Minimum Rating</span>
+            <div class="chips" id="ratingChips">
+                <button class="chip active" data-r="0" onclick="setRating(0)">All</button>
+                <button class="chip" data-r="4" onclick="setRating(4)">4★ &amp; up</button>
+                <button class="chip" data-r="4.5" onclick="setRating(4.5)">4.5★ &amp; up</button>
+                <button class="chip" data-r="4.8" onclick="setRating(4.8)">4.8★ &amp; up</button>
+            </div>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">Sort By</span>
+            <select class="filter-select" id="sortSelect" onchange="setSort(this.value)">
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="popular">Popularity</option>
+            </select>
+        </div>
+        <button class="reset-btn" onclick="resetFilters()">↺ Reset</button>
+    </div>
+    <div class="result-count" id="resultCount"></div>
+
+    <section class="products" id="productsGrid"></section>
+</main>
+
+<footer>
+    <h2>ElectroMart</h2>
+    <p>Your Ultimate Destination for Premium Electronics.</p>
+    <p style="margin-top:10px; font-size:13px; color:#aaa;">© 2026 ElectroMart. All Rights Reserved.</p>
+</footer>
+
+<!-- ================= COMPARE BAR ================= -->
+<div id="compareBar">
+    <div class="cmp-thumbs" id="cmpThumbs"></div>
+    <div class="cmp-actions">
+        <button class="cmp-go" id="cmpGo" onclick="openCompare()">Compare Now</button>
+        <button class="cmp-clear" onclick="clearCompare()">Clear</button>
+    </div>
+</div>
+
+<!-- ================= CART DRAWER ================= -->
+<div id="cartOverlay" class="drawer-overlay" onclick="toggleCartDrawer(false)"></div>
+<div id="cartDrawer" class="drawer">
+    <div class="drawer-header">
+        <h2>🛒 Your Shopping Cart</h2>
+        <button class="close" onclick="toggleCartDrawer(false)" style="position:static;">×</button>
+    </div>
+    <div class="drawer-body" id="cartItemsContainer"></div>
+    <div class="drawer-footer">
+        <div class="coupon-box">
+            <input type="text" id="couponInput" placeholder="Enter coupon (e.g. ELECTRO10)">
+            <button onclick="applyCoupon()">Apply</button>
+        </div>
+        <div id="discountLine"></div>
+        <div class="total">
+            <span>Total:</span>
+            <span id="cartTotalPrice">₹0</span>
+        </div>
+        <button class="primary orange" onclick="processCheckout()" style="font-size:15px;">Secure Checkout</button>
+    </div>
+</div>
+
+<!-- ================= WISHLIST DRAWER ================= -->
+<div id="wishlistOverlay" class="drawer-overlay" onclick="toggleWishlistDrawer(false)"></div>
+<div id="wishlistDrawer" class="drawer">
+    <div class="drawer-header">
+        <h2>❤️ Your Wishlist</h2>
+        <button class="close" onclick="toggleWishlistDrawer(false)" style="position:static;">×</button>
+    </div>
+    <div class="drawer-body" id="wishlistItemsContainer"></div>
+</div>
+
+<!-- ================= MODALS ================= -->
+<div class="overlay" id="modalOverlay" onclick="closeAllModals(event)">
+    <div class="modal" id="loginModal" onclick="event.stopPropagation()">
+        <button class="close" onclick="closeAllModals()">×</button>
+        <h2>Welcome to ElectroMart</h2>
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="loginEmail" placeholder="e.g. nikhil@gmail.com">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••">
+        </div>
+        <button class="primary" onclick="loginUser()">Sign In</button>
+    </div>
+
+    <div class="modal large" id="quickViewModal" onclick="event.stopPropagation()">
+        <button class="close" onclick="closeAllModals()">×</button>
+        <div id="quickViewContent" style="display:flex; gap:20px; flex-wrap:wrap; align-items:center;"></div>
+    </div>
+
+    <div class="modal large" id="ordersModal" onclick="event.stopPropagation()">
+        <button class="close" onclick="closeAllModals()">×</button>
+        <h2>📦 Order History</h2>
+        <div id="ordersListContainer" style="margin-top:15px;"></div>
+    </div>
+
+    <div class="modal xl" id="compareModal" onclick="event.stopPropagation()">
+        <button class="close" onclick="closeAllModals()">×</button>
+        <h2>⚖️ Compare Products</h2>
+        <div class="cmp-table-wrap" id="compareContent"></div>
+    </div>
+</div>
+
+<!-- ================= AI CHATBOT ================= -->
+<button id="chatbotBtn" onclick="toggleChat()">🤖 AI Bargain Bot</button>
+<div id="chatWindow">
+    <div class="chat-header-bot">
+        <h3>🤖 Bhaav-Taav Bot</h3>
+        <button onclick="toggleChat()">×</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+        <div class="msg bot-msg">Namaste! 🙏 Main ElectroMart ka AI Bargain Bot hoon. Maango discount, code lo (`ELECTRO10` ya `SAVE500`)!</div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="Ask for discount..." onkeypress="if(event.key === 'Enter') sendMessage()">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<div id="toast">Notification</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+const products = [
+    {id:1, name:"iPhone 16 Pro Max", category:"Mobiles", price:139999, rating:4.9, reviews:342, image:"https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=600&q=80", desc:"Titanium build, A18 Pro chip, 5x telephoto zoom, and breakthrough battery life.", specs:"Display: 6.9\" Super Retina OLED | RAM: 8GB | Battery: 4685mAh"},
+    {id:2, name:"Samsung Galaxy S25 Ultra", category:"Mobiles", price:129999, rating:4.8, reviews:280, image:"https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=600&q=80", desc:"Built-in S-Pen, Snapdragon 8 Elite processor, and 200MP pro-grade camera system.", specs:"Display: 6.8\" Dynamic AMOLED 2X | RAM: 12GB | Storage: 256GB"},
+    {id:3, name:"MacBook Air M4 (15-inch)", category:"Laptops", price:124999, rating:4.9, reviews:410, image:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80", desc:"Unbelievable thinness with Apple M4 performance, silent fanless design, and 18-hour battery.", specs:"Processor: Apple M4 | RAM: 16GB Unified | Storage: 512GB SSD"},
+    {id:4, name:"Lenovo Legion Pro 7i", category:"Laptops", price:169999, rating:4.7, reviews:150, image:"https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?auto=format&fit=crop&w=600&q=80", desc:"Elite gaming laptop powered by RTX graphics, advanced coldfront cooling, and RGB keyboard.", specs:"Processor: Intel Core i9 | GPU: RTX 4080 | RAM: 32GB"},
+    {id:5, name:'Sony Bravia 65" 4K QD-OLED', category:"TV", price:149999, rating:4.9, reviews:95, image:"https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=600&q=80", desc:"Pure blacks, supreme peak brightness, and acoustic surface audio for cinematic home entertainment.", specs:"Resolution: 4K Ultra HD (3840x2160) | Refresh Rate: 120Hz"},
+    {id:6, name:"Apple AirPods Pro (2nd Gen)", category:"Audio", price:23900, rating:4.8, reviews:620, image:"https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=600&q=80", desc:"Active Noise Cancellation, Adaptive Audio, and personalized spatial audio with dynamic head tracking.", specs:"Chip: Apple H2 | Battery: Up to 30h with MagSafe Case"},
+    {id:7, name:"Sony WH-1000XM5 ANC", category:"Audio", price:29990, rating:4.8, reviews:380, image:"https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=600&q=80", desc:"Industry-leading noise cancellation with two processors and 8 microphones for crystal clear calls.", specs:"Driver: 30mm precision engineered | Battery: 30 hours fast charge"},
+    {id:8, name:"Sony PlayStation 5 Slim", category:"Gaming", price:54990, rating:4.9, reviews:890, image:"https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=600&q=80", desc:"Play Has No Limits with lightning-fast loading, haptic feedback, adaptive triggers, and 3D audio.", specs:"Storage: 1TB Custom SSD | Ray Tracing Support"},
+    {id:9, name:"Xbox Series X 1TB", category:"Gaming", price:52990, rating:4.8, reviews:450, image:"https://images.unsplash.com/photo-1621259403766-db181a44c9b9?auto=format&fit=crop&w=600&q=80", desc:"The fastest, most powerful Xbox ever. Explore rich new worlds with 12 teraflops of raw graphic processing.", specs:"Resolution: True 4K Gaming up to 120 FPS"},
+    {id:10, name:"Apple Watch Ultra 2", category:"Wearables", price:89900, rating:4.8, reviews:210, image:"https://images.unsplash.com/photo-1434493789847-2f02dc6ba3be?auto=format&fit=crop&w=600&q=80", desc:"The ultimate sports and adventure watch featuring a rugged titanium case and ultra-bright display.", specs:"Case: 49mm Aerospace-grade titanium | Water Resistance: 100m"}
+];
+
+const $ = id => document.getElementById(id);
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+// If a device photo fails to load (offline / blocked), show a category icon instead of a broken image
+const CAT_ICON = {Mobiles:'📱', Laptops:'💻', TV:'📺', Audio:'🎧', Gaming:'🎮', Wearables:'⌚'};
+document.addEventListener('error', e => {
+    const t = e.target;
+    if(!t || t.tagName !== 'IMG' || t.dataset.fb) return;
+    t.dataset.fb = '1';
+    const icon = CAT_ICON[t.dataset.cat] || '🖼️';
+    t.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200"><rect width="100%" height="100%" fill="#e5e7eb"/><text x="50%" y="62%" font-size="80" text-anchor="middle">${icon}</text></svg>`);
+}, true);
+
+// Detailed ratings shown in the Compare table (out of 5). Sample values: edit freely.
+const PRODUCT_SCORES = {
+    1:{perf:4.9, value:4.2, build:4.9},
+    2:{perf:4.8, value:4.4, build:4.7},
+    3:{perf:4.8, value:4.6, build:4.9},
+    4:{perf:4.9, value:4.1, build:4.5},
+    5:{perf:4.9, value:4.2, build:4.7},
+    6:{perf:4.7, value:4.5, build:4.6},
+    7:{perf:4.8, value:4.6, build:4.6},
+    8:{perf:4.9, value:4.7, build:4.5},
+    9:{perf:4.8, value:4.6, build:4.5},
+    10:{perf:4.7, value:4.0, build:4.9}
+};
+function scoreCell(v){
+    if(v === undefined) return '—';
+    return `<div class="score"><b>${v.toFixed(1)}</b><div class="score-bar"><i style="width:${v / 5 * 100}%"></i></div></div>`;
+}
+
+function load(key, fallback){ try { const v = JSON.parse(localStorage.getItem(key)); return v === null || v === undefined ? fallback : v; } catch(e){ return fallback; } }
+
+// ================= Feature 5: Multi-Currency =================
+// All prices in the data are stored in INR. Fallback rates are approximate;
+// live rates are fetched on load (if online) and replace them.
+const MAX_PRICE = 170000;
+const currencies = {
+    INR: {symbol:'₹', rate:1,      locale:'en-IN'},
+    USD: {symbol:'$', rate:0.0113, locale:'en-US'},
+    EUR: {symbol:'€', rate:0.0097, locale:'en-IE'},
+    GBP: {symbol:'£', rate:0.0084, locale:'en-GB'}
+};
+let currentCurrency = localStorage.getItem('emart_currency') || 'INR';
+if(!currencies[currentCurrency]) currentCurrency = 'INR';
+
+function fmt(inr){
+    const c = currencies[currentCurrency];
+    return c.symbol + Math.round(inr * c.rate).toLocaleString(c.locale);
+}
+
+async function loadLiveRates(){
+    try {
+        const res = await fetch('https://open.er-api.com/v6/latest/INR');
+        const data = await res.json();
+        if(data && data.rates){
+            ['USD','EUR','GBP'].forEach(k => { if(data.rates[k]) currencies[k].rate = data.rates[k]; });
+            refreshAll();
+        }
+    } catch(e) { /* offline: keep approximate fallback rates */ }
+}
+
+function changeCurrency(code){
+    currentCurrency = code;
+    localStorage.setItem('emart_currency', code);
+    refreshAll();
+    showToast(`Prices now shown in ${code} (${currencies[code].symbol})`);
+}
+
+// ================= State =================
+let cart = load('emart_cart', []);
+let wishlist = load('emart_wishlist', []);
+let orders = load('emart_orders', []);
+let reviewsDB = load('emart_reviews', {});
+let currentUser = localStorage.getItem('emart_user') || null;
+let appliedCoupon = null;       // {code, type:'percent'|'flat', value}
+let compareList = [];           // product ids (max 3)
+let activeModal = null;         // 'login' | 'quick' | 'orders' | 'compare' | null
+let quickViewId = null;
+let draftRating = 0;
+let emiTenure = 6;
+let ordersTimer = null;
+let ordersSig = '';
+
+const view = {cat:'All', query:'', minP:0, maxP:MAX_PRICE, minR:0, sort:'featured'};
+
+window.onload = () => {
+    // migrate older orders saved before tracking existed
+    orders.forEach(o => {
+        if(!o.placedAt) o.placedAt = Date.now() - 10*60*1000;
+        if(o.totalINR === undefined) o.totalINR = parseInt(String(o.total || '0').replace(/[^\d]/g,''), 10) || 0;
+    });
+    saveOrders();
+    $('currencySelect').value = currentCurrency;
+    refreshAll();
+    checkAuth();
+    loadLiveRates();
+};
+
+// Re-render everything that shows a price (called on currency change)
+function refreshAll(){
+    $('currencySelect').value = currentCurrency;
+    $('heroFrom').innerText = fmt(Math.min(...products.map(p => p.price)));
+    updatePriceUI();
+    applyView();
+    updateCartUI();
+    updateWishlistUI();
+    if(activeModal === 'quick') renderQuickView();
+    if(activeModal === 'orders') renderOrders();
+    if(activeModal === 'compare') renderCompare();
+}
+
+// ================= Ratings (base + user reviews) =================
+function getStats(p){
+    const list = reviewsDB[p.id] || [];
+    const n = p.reviews + list.length;
+    const sum = p.rating * p.reviews + list.reduce((a, r) => a + r.rating, 0);
+    return {rating: sum / n, count: n, userReviews: list};
+}
+const r1 = x => Math.round(x * 10) / 10;
+
+// ================= Feature 1: Filters, Sort, Search =================
+function applyView(){
+    let items = products.filter(p => {
+        const s = getStats(p);
+        if(view.cat !== 'All' && p.category !== view.cat) return false;
+        if(view.query){
+            const q = view.query;
+            if(!(p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q) || p.specs.toLowerCase().includes(q))) return false;
+        }
+        if(p.price < view.minP || p.price > view.maxP) return false;
+        if(r1(s.rating) < view.minR) return false;
+        return true;
+    });
+
+    if(view.sort === 'price-asc') items.sort((a,b) => a.price - b.price);
+    else if(view.sort === 'price-desc') items.sort((a,b) => b.price - a.price);
+    else if(view.sort === 'popular') items.sort((a,b) => getStats(b).count - getStats(a).count || getStats(b).rating - getStats(a).rating);
+
+    $('productTitle').innerText = view.query ? `Search Results for "${view.query}"` : (view.cat === 'All' ? 'Featured Flagship Products' : view.cat);
+    $('resultCount').innerText = `${items.length} product${items.length === 1 ? '' : 's'} found`;
+    renderProducts(items);
+}
+
+function filterCategory(cat){
+    view.cat = cat;
+    view.query = '';
+    $('searchInput').value = '';
+    applyView();
+    $('productSection').scrollIntoView({behavior:'smooth'});
+}
+
+function executeSearch(){
+    view.query = $('searchInput').value.trim().toLowerCase();
+    view.cat = 'All';
+    applyView();
+    $('productSection').scrollIntoView({behavior:'smooth'});
+}
+
+function onPriceChange(which){
+    const minEl = $('minPrice'), maxEl = $('maxPrice');
+    let lo = +minEl.value, hi = +maxEl.value;
+    if(lo > hi){
+        if(which === 'min'){ lo = hi; minEl.value = lo; }
+        else { hi = lo; maxEl.value = hi; }
+    }
+    view.minP = lo; view.maxP = hi;
+    updatePriceUI();
+    applyView();
+}
+
+function updatePriceUI(){
+    const lo = view.minP, hi = view.maxP;
+    $('priceReadout').innerText = `${fmt(lo)} – ${fmt(hi)}${hi >= MAX_PRICE ? '+' : ''}`;
+    const fill = $('rangeFill');
+    fill.style.left = (lo / MAX_PRICE * 100) + '%';
+    fill.style.width = ((hi - lo) / MAX_PRICE * 100) + '%';
+    // keep both thumbs grabbable when they overlap
+    $('minPrice').style.zIndex = lo > MAX_PRICE / 2 ? 5 : 3;
+    $('maxPrice').style.zIndex = 4;
+}
+
+function setRating(r){
+    view.minR = r;
+    document.querySelectorAll('#ratingChips .chip').forEach(c => c.classList.toggle('active', +c.dataset.r === r));
+    applyView();
+}
+
+function setSort(v){ view.sort = v; applyView(); }
+
+function resetFilters(){
+    view.minP = 0; view.maxP = MAX_PRICE; view.minR = 0; view.sort = 'featured';
+    $('minPrice').value = 0; $('maxPrice').value = MAX_PRICE; $('sortSelect').value = 'featured';
+    document.querySelectorAll('#ratingChips .chip').forEach(c => c.classList.toggle('active', +c.dataset.r === 0));
+    updatePriceUI();
+    applyView();
+}
+
+// ================= Render Products =================
+function renderProducts(items){
+    const grid = $('productsGrid');
+    if(items.length === 0){
+        grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:50px;">No products match your filters. Try widening the price range or hitting Reset.</p>';
+        return;
+    }
+    grid.innerHTML = items.map(p => {
+        const isWishlisted = wishlist.some(w => w.id === p.id);
+        const comparing = compareList.includes(p.id);
+        const s = getStats(p);
+        return `
+        <div class="product ${comparing ? 'comparing' : ''}">
+            <img src="${p.image}" alt="${esc(p.name)}" data-cat="${p.category}" onclick="openQuickView(${p.id})">
+            <div class="product-body">
+                <div class="product-category">${p.category}</div>
+                <h3 onclick="openQuickView(${p.id})">${p.name}</h3>
+                <div class="rating">⭐ ${s.rating.toFixed(1)} (${s.count})</div>
+                <div class="price">${fmt(p.price)}</div>
+                <div class="emi-hint">💳 No-cost EMI from ${fmt(p.price / 6)}/mo</div>
+                <div class="product-actions">
+                    <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+                    <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" onclick="toggleWishlist(${p.id})" title="Save to Wishlist">${isWishlisted ? '❤️' : '🤍'}</button>
+                </div>
+                <label class="compare-label"><input type="checkbox" ${comparing ? 'checked' : ''} onchange="toggleCompare(${p.id}, this)"> ⚖️ Compare</label>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// ================= Feature 3: Compare =================
+function toggleCompare(id, el){
+    const i = compareList.indexOf(id);
+    if(i > -1) compareList.splice(i, 1);
+    else {
+        if(compareList.length >= 3){
+            if(el) el.checked = false;
+            showToast('You can compare up to 3 products');
+            return;
+        }
+        compareList.push(id);
+    }
+    updateCompareUI();
+    applyView();
+}
+
+function removeCompare(id){
+    compareList = compareList.filter(x => x !== id);
+    updateCompareUI();
+    applyView();
+    if(activeModal === 'compare'){
+        if(compareList.length < 2) closeAllModals(); else renderCompare();
+    }
+}
+
+function clearCompare(){
+    compareList = [];
+    updateCompareUI();
+    applyView();
+}
+
+function updateCompareUI(){
+    const bar = $('compareBar');
+    bar.classList.toggle('show', compareList.length > 0);
+    $('cmpThumbs').innerHTML = `<span class="cmp-count">⚖️ Compare (${compareList.length}/3)</span>` + compareList.map(id => {
+        const p = products.find(x => x.id === id);
+        return `<div class="cmp-thumb"><img src="${p.image}" alt="" data-cat="${p.category}"><span>${p.name}</span><button onclick="removeCompare(${id})" title="Remove">×</button></div>`;
+    }).join('');
+    $('cmpGo').disabled = compareList.length < 2;
+}
+
+function openCompare(){
+    if(compareList.length < 2){ showToast('Select at least 2 products to compare'); return; }
+    showModal('compareModal');
+    activeModal = 'compare';
+    renderCompare();
+}
+
+function parseSpecs(str){
+    const out = {};
+    str.split('|').forEach(part => {
+        const i = part.indexOf(':');
+        if(i > -1) out[part.slice(0, i).trim()] = part.slice(i + 1).trim();
+    });
+    return out;
+}
+
+function renderCompare(){
+    const items = compareList.map(id => products.find(p => p.id === id));
+    const stats = items.map(getStats);
+    const specs = items.map(p => parseSpecs(p.specs));
+
+    const priority = ['Processor','Chip','Display','Resolution','Refresh Rate','Battery','RAM','Storage','GPU'];
+    const keys = [];
+    specs.forEach(s => Object.keys(s).forEach(k => { if(!keys.includes(k)) keys.push(k); }));
+    keys.sort((a, b) => {
+        const ia = priority.indexOf(a), ib = priority.indexOf(b);
+        return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+    });
+
+    const minPrice = Math.min(...items.map(p => p.price));
+    const maxRating = Math.max(...stats.map(s => r1(s.rating)));
+
+    const row = (label, vals, bestFn) => {
+        const diff = new Set(vals).size > 1;
+        return `<tr class="${diff ? 'diff' : ''}"><th class="row-h">${label}</th>${vals.map((v, i) => `<td class="${bestFn && diff && bestFn(i) ? 'best' : ''}">${v}</td>`).join('')}</tr>`;
+    };
+
+    let html = `<table class="cmp-table">
+        <tr><th class="row-h"></th>${items.map(p => `<td><img src="${p.image}" alt="${esc(p.name)}" data-cat="${p.category}"><div style="font-weight:bold; margin-top:8px;">${p.name}</div><button class="remove" onclick="removeCompare(${p.id})">Remove</button></td>`).join('')}</tr>`;
+    html += row('Price', items.map(p => fmt(p.price)), i => items[i].price === minPrice);
+    html += row('Rating', stats.map(s => `⭐ ${s.rating.toFixed(1)}`), i => r1(stats[i].rating) === maxRating);
+    html += row('Reviews', stats.map(s => s.count));
+    html += row('Category', items.map(p => p.category));
+    html += `<tr class="cmp-section"><th colspan="${items.length + 1}">Detailed Ratings</th></tr>`;
+    [['perf','Performance'], ['value','Value for Money'], ['build','Build &amp; Design']].forEach(([k, label]) => {
+        const vals = items.map(p => (PRODUCT_SCORES[p.id] || {})[k]);
+        const best = Math.max(...vals.filter(v => v !== undefined));
+        html += row(label, vals.map(scoreCell), i => vals[i] === best);
+    });
+    html += `<tr class="cmp-section"><th colspan="${items.length + 1}">Specifications</th></tr>`;
+    keys.forEach(k => { html += row(esc(k), specs.map(s => s[k] ? esc(s[k]) : '—')); });
+    html += `<tr><th class="row-h"></th>${items.map(p => `<td><button class="primary orange" style="padding:9px;" onclick="addToCart(${p.id}); closeAllModals();">Add to Cart</button></td>`).join('')}</tr>`;
+    html += `</table><div class="cmp-legend">🟧 Highlighted rows differ between products &nbsp;·&nbsp; <span style="color:#10b981; font-weight:bold;">Green</span> = best price / best rating</div>`;
+    $('compareContent').innerHTML = html;
+}
+
+// ================= Cart & Checkout =================
+function addToCart(id){
+    const product = products.find(p => p.id === id);
+    const existing = cart.find(item => item.id === id);
+    if(existing) existing.qty += 1;
+    else cart.push({...product, qty: 1});
+    saveCart();
+    updateCartUI();
+    toggleCartDrawer(true);
+    showToast(`${product.name} added to cart!`);
+}
+
+function updateQty(id, change){
+    const item = cart.find(i => i.id === id);
+    if(item){
+        item.qty += change;
+        if(item.qty <= 0) cart = cart.filter(i => i.id !== id);
+        saveCart();
+        updateCartUI();
+    }
+}
+
+function removeFromCart(id){
+    cart = cart.filter(i => i.id !== id);
+    saveCart();
+    updateCartUI();
+}
+
+function saveCart(){ localStorage.setItem('emart_cart', JSON.stringify(cart)); }
+function saveOrders(){ localStorage.setItem('emart_orders', JSON.stringify(orders)); }
+
+function cartTotals(){
+    const raw = cart.reduce((a, i) => a + i.price * i.qty, 0);
+    let discount = 0;
+    if(appliedCoupon) discount = appliedCoupon.type === 'percent' ? raw * appliedCoupon.value : Math.min(appliedCoupon.value, raw);
+    return {raw, discount, final: raw - discount};
+}
+
+function updateCartUI(){
+    const container = $('cartItemsContainer');
+    let totalQty = 0;
+
+    container.innerHTML = cart.map(item => {
+        totalQty += item.qty;
+        return `
+        <div class="drawer-item">
+            <img src="${item.image}" alt="">
+            <div class="drawer-info">
+                <h4>${item.name}</h4>
+                <div style="font-weight:bold; color:#ff8a00;">${fmt(item.price)}</div>
+                <div class="qty">
+                    <button onclick="updateQty(${item.id}, -1)">-</button>
+                    <span>${item.qty}</span>
+                    <button onclick="updateQty(${item.id}, 1)">+</button>
+                </div>
+                <button class="remove" onclick="removeFromCart(${item.id})">Remove</button>
+            </div>
+        </div>`;
+    }).join('');
+
+    if(cart.length === 0) container.innerHTML = '<p style="text-align:center; margin-top:30px; color:var(--text-muted);">Your cart is empty.</p>';
+
+    const t = cartTotals();
+    const dl = $('discountLine');
+    if(appliedCoupon && t.discount > 0){
+        dl.style.display = 'flex';
+        dl.innerHTML = `<span>🎟️ ${appliedCoupon.code} applied</span><span>−${fmt(t.discount)}</span>`;
+    } else dl.style.display = 'none';
+
+    $('cartCount').innerText = totalQty;
+    $('cartTotalPrice').innerText = fmt(t.final);
+}
+
+function toggleCartDrawer(show){
+    $('cartOverlay').style.display = show ? 'block' : 'none';
+    $('cartDrawer').classList.toggle('open', show);
+}
+
+function applyCoupon(){
+    const code = $('couponInput').value.trim().toUpperCase();
+    if(code === 'ELECTRO10'){
+        appliedCoupon = {code, type:'percent', value:0.10};
+        showToast("Coupon ELECTRO10 applied (10% OFF)!");
+    } else if(code === 'BARGAIN5'){
+        appliedCoupon = {code, type:'percent', value:0.05};
+        showToast("Coupon BARGAIN5 applied (5% OFF)!");
+    } else if(code === 'SAVE500'){
+        appliedCoupon = {code, type:'flat', value:500};
+        showToast("Coupon SAVE500 applied (₹500 OFF)!");
+    } else {
+        alert("Invalid coupon code. Ask the AI Bargain Bot for secret codes!");
+        return;
+    }
+    updateCartUI();
+}
+
+function processCheckout(){
+    if(cart.length === 0){ showToast("Cart is empty!"); return; }
+    if(!currentUser){
+        toggleCartDrawer(false);
+        openLoginModal();
+        showToast("Please login to checkout.");
+        return;
+    }
+
+    showToast("Processing Order...");
+    setTimeout(() => {
+        const totalINR = Math.round(cartTotals().final);
+        const orderSummary = {
+            id: 'EM-' + Math.floor(100000 + Math.random() * 900000),
+            date: new Date().toLocaleDateString(),
+            placedAt: Date.now(),
+            cancelled: false,
+            items: cart.map(i => ({...i})),
+            total: '₹' + totalINR.toLocaleString('en-IN'),
+            totalINR: totalINR
+        };
+        orders.unshift(orderSummary);
+        saveOrders();
+
+        cart = [];
+        appliedCoupon = null;
+        saveCart();
+        updateCartUI();
+        toggleCartDrawer(false);
+        alert(`🎉 Order ${orderSummary.id} Placed Successfully! Thank you for shopping with ElectroMart.`);
+    }, 1200);
+}
+
+// ================= Wishlist =================
+function toggleWishlist(id){
+    const product = products.find(p => p.id === id);
+    const index = wishlist.findIndex(w => w.id === id);
+    if(index > -1){
+        wishlist.splice(index, 1);
+        showToast(`${product.name} removed from wishlist.`);
+    } else {
+        wishlist.push(product);
+        showToast(`${product.name} saved to wishlist!`);
+    }
+    localStorage.setItem('emart_wishlist', JSON.stringify(wishlist));
+    updateWishlistUI();
+    applyView();
+}
+
+function updateWishlistUI(){
+    $('wishlistCount').innerText = wishlist.length;
+    const container = $('wishlistItemsContainer');
+    container.innerHTML = wishlist.map(item => `
+        <div class="drawer-item">
+            <img src="${item.image}" alt="">
+            <div class="drawer-info">
+                <h4>${item.name}</h4>
+                <div style="font-weight:bold; color:#ff8a00;">${fmt(item.price)}</div>
+                <button class="primary" style="padding:6px; font-size:12px; margin-top:6px;" onclick="addToCart(${item.id}); toggleWishlistDrawer(false);">Move to Cart</button>
+                <button class="remove" onclick="toggleWishlist(${item.id})">Remove</button>
+            </div>
+        </div>
+    `).join('');
+    if(wishlist.length === 0) container.innerHTML = '<p style="text-align:center; margin-top:30px; color:var(--text-muted);">Your wishlist is empty.</p>';
+}
+
+function toggleWishlistDrawer(show){
+    $('wishlistOverlay').style.display = show ? 'block' : 'none';
+    $('wishlistDrawer').classList.toggle('open', show);
+}
+
+// ================= Modals =================
+function showModal(id){
+    $('modalOverlay').style.display = 'flex';
+    ['loginModal','quickViewModal','ordersModal','compareModal'].forEach(m => { $(m).style.display = (m === id) ? 'block' : 'none'; });
+}
+
+function closeAllModals(e){
+    if(e && e.target !== $('modalOverlay')) return;
+    $('modalOverlay').style.display = 'none';
+    activeModal = null;
+    clearInterval(ordersTimer);
+}
+
+function openLoginModal(){
+    showModal('loginModal');
+    activeModal = 'login';
+}
+
+// ================= Quick View: EMI Planner (unique feature) + Reviews =================
+// Tenure -> annual interest %. 3 & 6 months are "No-Cost EMI".
+const EMI_PLANS = {3:0, 6:0, 9:12, 12:14, 24:15};
+
+function emiCalc(price, months){
+    const rate = EMI_PLANS[months];
+    if(rate === 0) return {emi: price / months, total: price, interest: 0, rate};
+    const r = rate / 12 / 100;
+    const emi = price * r * Math.pow(1 + r, months) / (Math.pow(1 + r, months) - 1);
+    return {emi, total: emi * months, interest: emi * months - price, rate};
+}
+
+function emiHTML(p){
+    const c = emiCalc(p.price, emiTenure);
+    const chips = Object.keys(EMI_PLANS).map(m => `<button class="chip ${+m === emiTenure ? 'active' : ''}" onclick="setEmi(${m})">${m} mo${EMI_PLANS[m] === 0 ? ' · 0%' : ''}</button>`).join('');
+    return `
+        <div class="chips">${chips}</div>
+        <div class="emi-result">
+            <div class="emi-cell"><small>Monthly EMI</small><b style="color:#ff8a00;">${fmt(c.emi)}</b></div>
+            <div class="emi-cell"><small>Interest (${c.rate}% p.a.)</small><b>${c.interest === 0 ? 'None' : fmt(c.interest)}</b></div>
+            <div class="emi-cell"><small>Total payable</small><b>${fmt(c.total)}</b></div>
+        </div>
+        ${c.rate === 0 ? '<div class="emi-note" style="color:#10b981; font-weight:bold;">✅ No-Cost EMI: you pay exactly the product price, nothing extra.</div>' : ''}
+        <div class="emi-note">Illustrative rates for demo purposes. Actual EMI depends on your bank.</div>`;
+}
+
+function setEmi(m){
+    emiTenure = m;
+    const p = products.find(x => x.id === quickViewId);
+    $('emiBox').innerHTML = emiHTML(p);
+}
+
+function hasPurchased(id){
+    return orders.some(o => !o.cancelled && o.items.some(i => i.id === id));
+}
+
+function setDraftRating(n){
+    draftRating = n;
+    document.querySelectorAll('#starInput span').forEach((s, i) => s.classList.toggle('on', i < n));
+}
+
+function openQuickView(id){
+    quickViewId = id;
+    draftRating = 0;
+    $('quickViewContent').innerHTML = '';   // fresh form for each product
+    showModal('quickViewModal');
+    activeModal = 'quick';
+    renderQuickView();
+}
+
+function renderQuickView(){
+    const p = products.find(x => x.id === quickViewId);
+    if(!p) return;
+    const s = getStats(p);
+    const keepName = $('reviewName') ? $('reviewName').value : null;
+    const keepText = $('reviewText') ? $('reviewText').value : null;
+
+    const reviewsHTML = s.userReviews.length ? s.userReviews.map(r => `
+        <div class="review-item">
+            <div class="review-top">
+                <b>${esc(r.name)}</b>
+                <span class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+                ${r.verified ? '<span class="verified">✔ Verified Buyer</span>' : ''}
+                <span class="review-date">${new Date(r.date).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'})}</span>
+            </div>
+            <div class="review-text">${esc(r.text)}</div>
+        </div>`).join('') : '<p style="color:var(--text-muted); font-size:14px;">No written reviews yet. Be the first to share your experience!</p>';
+
+    const stars = [1,2,3,4,5].map(n => `<span class="${n <= draftRating ? 'on' : ''}" onclick="setDraftRating(${n})">★</span>`).join('');
+
+    $('quickViewContent').innerHTML = `
+        <img src="${p.image}" alt="${esc(p.name)}" data-cat="${p.category}" style="width:300px; height:250px; object-fit:cover; border-radius:10px; background:#eee;">
+        <div style="flex:1; min-width:250px;">
+            <div style="color:var(--text-muted); font-size:12px; text-transform:uppercase;">${p.category}</div>
+            <h2 style="margin:6px 0;">${p.name}</h2>
+            <div class="rating">⭐ ${s.rating.toFixed(1)} (${s.count} reviews)</div>
+            <p style="font-size:14px; color:var(--text-muted); margin:10px 0; line-height:1.5;">${p.desc}</p>
+            <p style="font-size:13px; font-weight:bold; margin-bottom:12px;">⚙️ ${p.specs}</p>
+            <div class="price" style="font-size:24px; margin-bottom:15px;">${fmt(p.price)}</div>
+            <button class="primary orange" onclick="addToCart(${p.id}); closeAllModals();">Add to Cart</button>
+        </div>
+        <div class="qv-extra">
+            <div class="emi-box">
+                <h3>💳 Smart EMI Planner</h3>
+                <div id="emiBox">${emiHTML(p)}</div>
+            </div>
+            <h3>⭐ Customer Reviews (${s.count})</h3>
+            <div class="review-form">
+                <h4>✍️ Write a Review</h4>
+                <div class="star-input" id="starInput" title="Tap to rate">${stars}</div>
+                <input type="text" id="reviewName" maxlength="30" placeholder="Your name">
+                <textarea id="reviewText" rows="3" maxlength="500" placeholder="Share your experience with this product..."></textarea>
+                <button class="primary orange" onclick="submitReview(${p.id})">Submit Review</button>
+            </div>
+            <div id="reviewList">${reviewsHTML}</div>
+        </div>`;
+
+    $('reviewName').value = keepName !== null ? keepName : (currentUser || '');
+    if(keepText !== null) $('reviewText').value = keepText;
+}
+
+function submitReview(id){
+    const name = $('reviewName').value.trim();
+    const text = $('reviewText').value.trim();
+    if(!draftRating){ showToast('Please select a star rating'); return; }
+    if(!name){ showToast('Please enter your name'); return; }
+    if(text.length < 3){ showToast('Please write a short review'); return; }
+
+    if(!reviewsDB[id]) reviewsDB[id] = [];
+    reviewsDB[id].unshift({name, rating: draftRating, text, date: new Date().toISOString(), verified: hasPurchased(id)});
+    localStorage.setItem('emart_reviews', JSON.stringify(reviewsDB));
+
+    draftRating = 0;
+    $('reviewText').value = '';
+    renderQuickView();
+    applyView();   // card ratings / sort / filters pick up the new review
+    showToast('Thanks! Your review was posted.');
+}
+
+// ================= Theme =================
+function toggleTheme(){
+    const body = document.body;
+    const next = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    body.setAttribute('data-theme', next);
+    $('themeToggleBtn').innerText = next === 'light' ? '🌙' : '☀️';
+    showToast(`Switched to ${next} mode`);
+}
+
+// ================= Feature 2: Order History + Live Tracking =================
+// Demo simulation: every STEP_MS of real time the order moves one step forward,
+// while the dates shown are realistic (+0, +1, +2, +4, +5 days).
+const STEP_MS = 30000;
+const ORDER_STEPS = [
+    {label:'Order Placed',     icon:'📝'},
+    {label:'Packed',           icon:'📦'},
+    {label:'Dispatched',       icon:'🚚'},
+    {label:'Out for Delivery', icon:'🛵'},
+    {label:'Delivered',        icon:'✅'}
+];
+const STEP_DAY_OFFSETS = [0, 1, 2, 4, 5];
+
+function orderStepIndex(o){
+    if(o.cancelled) return -1;
+    return Math.min(ORDER_STEPS.length - 1, Math.floor((Date.now() - o.placedAt) / STEP_MS));
+}
+
+function stepDate(o, i){
+    const d = new Date(o.placedAt);
+    d.setDate(d.getDate() + STEP_DAY_OFFSETS[i]);
+    return d.toLocaleDateString('en-IN', {day:'numeric', month:'short'});
+}
+
+function ordersSignature(){ return orders.map(o => o.id + ':' + orderStepIndex(o)).join(',') + '|' + currentCurrency; }
+
+function openOrdersModal(){
+    showModal('ordersModal');
+    activeModal = 'orders';
+    renderOrders();
+    clearInterval(ordersTimer);
+    ordersTimer = setInterval(() => {
+        if(activeModal !== 'orders'){ clearInterval(ordersTimer); return; }
+        if(ordersSignature() !== ordersSig) renderOrders();
+    }, 3000);
+}
+
+function renderOrders(){
+    const container = $('ordersListContainer');
+    ordersSig = ordersSignature();
+    if(orders.length === 0){
+        container.innerHTML = '<p style="color:var(--text-muted);">No past orders found.</p>';
+        return;
+    }
+    container.innerHTML = orders.map(o => {
+        const idx = orderStepIndex(o);
+        const cancelled = o.cancelled;
+        const status = cancelled ? '❌ Cancelled' : `${ORDER_STEPS[idx].icon} ${ORDER_STEPS[idx].label}`;
+
+        let body = '';
+        if(cancelled){
+            body = `<div class="cancel-banner">❌ Order cancelled on ${new Date(o.cancelledAt || o.placedAt).toLocaleDateString('en-IN', {day:'numeric', month:'short'})}. Refund will be processed to your original payment method.</div>`;
+        } else {
+            body = `<div class="tracker-scroll"><div class="tracker">${ORDER_STEPS.map((st, i) => `
+                <div class="step ${i <= idx ? 'reached' : ''} ${i === idx ? 'current' : ''} ${i === ORDER_STEPS.length - 1 ? 'final' : ''}">
+                    <div class="dot">${st.icon}</div>
+                    <div class="step-label">${st.label}</div>
+                    <div class="step-date">${i <= idx ? stepDate(o, i) : 'Est. ' + stepDate(o, i)}</div>
+                </div>`).join('')}</div></div>`;
+            if(idx <= 1) body += `<button class="cancel-btn" onclick="cancelOrder('${o.id}')">✖ Cancel Order</button>`;
+            else if(idx < ORDER_STEPS.length - 1) body += `<div class="cancel-note">ℹ️ Cancellation isn't available once an order has been dispatched.</div>`;
+        }
+
+        return `
+        <div class="order-card">
+            <div class="order-head">
+                <span>Order ID: ${o.id}</span>
+                <span style="color:#ff8a00;">${fmt(o.totalINR)}</span>
+            </div>
+            <div class="order-meta">Placed on: ${o.date} | <span class="status-pill ${cancelled ? 'pill-cancel' : 'pill-active'}">${status}</span></div>
+            <div style="font-size:13px;">Items: ${o.items.map(i => `${i.name} (x${i.qty})`).join(', ')}</div>
+            ${body}
+        </div>`;
+    }).join('');
+}
+
+function cancelOrder(id){
+    const o = orders.find(x => x.id === id);
+    if(!o) return;
+    if(orderStepIndex(o) > 1){
+        showToast('This order has already been dispatched.');
+        renderOrders();
+        return;
+    }
+    if(!confirm(`Cancel order ${id}?`)) return;
+    o.cancelled = true;
+    o.cancelledAt = Date.now();
+    saveOrders();
+    renderOrders();
+    showToast(`Order ${id} cancelled.`);
+}
+
+// ================= Auth =================
+function checkAuth(){
+    if(currentUser){
+        $('loginBtn').style.display = 'none';
+        $('logoutBtn').style.display = 'inline-block';
+        $('ordersNavBtn').style.display = 'inline-block';
+        $('userNameDisplay').style.display = 'inline-block';
+        $('userNameDisplay').innerText = `Hi, ${currentUser}`;
+    } else {
+        $('loginBtn').style.display = 'inline-block';
+        $('logoutBtn').style.display = 'none';
+        $('ordersNavBtn').style.display = 'none';
+        $('userNameDisplay').style.display = 'none';
+    }
+}
+
+function loginUser(){
+    const email = $('loginEmail').value;
+    if(email.includes('@')){
+        const name = email.split('@')[0];
+        localStorage.setItem('emart_user', name);
+        currentUser = name;
+        checkAuth();
+        closeAllModals();
+        showToast(`Welcome back, ${name}!`);
+    } else {
+        alert("Please enter a valid email address.");
+    }
+}
+
+function logoutUser(){
+    localStorage.removeItem('emart_user');
+    currentUser = null;
+    checkAuth();
+    showToast("Logged out successfully.");
+}
+
+// ================= AI Chatbot =================
+function toggleChat(){
+    const win = $('chatWindow');
+    win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+}
+
+function sendMessage(){
+    const input = $('chatInput');
+    const msg = input.value.trim();
+    if(!msg) return;
+
+    const chatBody = $('chatBody');
+    chatBody.innerHTML += `<div class="msg user-msg">${esc(msg)}</div>`;
+    input.value = '';
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    setTimeout(() => {
+        let reply = "Main Bhaav-Taav bot hoon. Discount chahiye toh 'discount' ya 'coupon' bolo! 💰";
+        const txt = msg.toLowerCase();
+        if(txt.includes('discount') || txt.includes('coupon') || txt.includes('code') || txt.includes('kam')){
+            const discounts = [
+                "Theek hai boss! Use coupon code <b>ELECTRO10</b> in your cart for 10% OFF! 🎉",
+                "Yeh lo special secret coupon: <b>BARGAIN5</b> for 5% OFF! 😉",
+                "Flat ₹500 chahiye? Code <b>SAVE500</b> try karo! 💸"
+            ];
+            reply = discounts[Math.floor(Math.random() * discounts.length)];
+        }
+        chatBody.innerHTML += `<div class="msg bot-msg">${reply}</div>`;
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }, 800);
+}
+
+function showToast(message){
+    const toast = $('toast');
+    toast.innerText = message;
+    toast.className = "show";
+    setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+}
+</script>
+</body>
+</html>

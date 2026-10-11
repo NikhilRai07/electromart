@@ -1,0 +1,43 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: electromart
+      MYSQL_USER: emart
+      MYSQL_PASSWORD: emart_dev_password
+      MYSQL_ROOT_PASSWORD: root_dev_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot_dev_password"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build: ./backend
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/electromart?createDatabaseIfNotExist=true
+      DB_USERNAME: emart
+      DB_PASSWORD: emart_dev_password
+      JWT_SECRET: "replace-this-demo-secret-with-a-long-random-secret-key"
+      FRONTEND_ORIGIN: http://localhost:5173
+      ADMIN_EMAIL: admin@electromart.com
+      ADMIN_PASSWORD: "Admin@12345"
+    ports:
+      - "8082:8082"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
