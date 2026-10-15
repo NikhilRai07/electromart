@@ -8,8 +8,8 @@ const categories = ['All', 'Mobiles', 'Laptops', 'TV', 'Audio', 'Gaming', 'Weara
 function Header({ query, setQuery, category, setCategory, cartCount, onLogin, onAdminLogin, user, admin, onLogout, dark, setDark }) {
   return <header>
     <div className="topbar">
-      <a className="logo" href="#" onClick={() => setCategory('All')}>Electro<span>Mart</span></a>
-      <input className="search" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search gadgets, specs, brands..." aria-label="Search products" />
+      <a className="logo" href="#" onClick={() => setCategory('All')}>Electro<span>Mart</span><span className="nexus-wordmark">NEXUS</span></a>
+      <input className="search" value={query} onChange={e => setQuery(e.target.value)} placeholder="⌕  Search gadgets, specs, brands..." aria-label="Search products" />
       <div className="head-actions">{user ? <><span className="user">{admin ? '🛡️ Admin' : `Hi, ${user.split('@')[0]}`}</span><button className="ghost" onClick={onLogout}>Log out</button></> : <><button className="ghost" onClick={onLogin}>👤 User Login</button><button className="ghost admin-login-btn" onClick={onAdminLogin}>🛡️ Admin Login</button></>}
       <button className="ghost dark-toggle header-theme" onClick={() => setDark(v=>!v)} aria-label="Toggle colour theme">{dark?'☀️ Light':'🌙 Dark'}</button><button className="cart-pill" onClick={() => document.getElementById('cart')?.scrollIntoView({behavior:'smooth'})}>🛒 Cart ({cartCount})</button></div>
     </div>
@@ -17,7 +17,18 @@ function Header({ query, setQuery, category, setCategory, cartCount, onLogin, on
   </header>
 }
 function ProductCard({ product, addToCart, toggleWish, wished, compared, toggleCompare }) {
-  return <article className="product">
+  function tiltCard(e) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const r = e.currentTarget.getBoundingClientRect()
+    const x = (e.clientX - r.left) / r.width
+    const y = (e.clientY - r.top) / r.height
+    e.currentTarget.style.setProperty('--tilt-x', `${(0.5-y)*7}deg`)
+    e.currentTarget.style.setProperty('--tilt-y', `${(x-0.5)*9}deg`)
+    e.currentTarget.style.setProperty('--pointer-x', `${x*100}%`)
+    e.currentTarget.style.setProperty('--pointer-y', `${y*100}%`)
+  }
+  function resetTilt(e) { e.currentTarget.style.setProperty('--tilt-x','0deg'); e.currentTarget.style.setProperty('--tilt-y','0deg') }
+  return <article className="product holographic-card" onMouseMove={tiltCard} onMouseLeave={resetTilt}>
     <img src={product.imageUrl || 'https://placehold.co/600x400?text=ElectroMart'} alt={product.name} onError={e => {e.currentTarget.src='https://placehold.co/600x400?text=Electronics'}} />
     <div className="product-content"><small>{product.category}</small><h3>{product.name}</h3><div className="rating">★ {Number(product.rating || 4.5).toFixed(1)}</div><div className="price">{money(product.price)}</div>
       <p>{product.description}</p><div className="actions"><button className="add" onClick={() => addToCart(product)}>Add to Cart</button><button className={'heart '+(wished?'active':'')} aria-label="Wishlist" onClick={() => toggleWish(product.id)}>{wished?'♥':'♡'}</button></div><button className={'compare-pick '+(compared?'picked':'')} onClick={()=>toggleCompare(product.id)}>{compared?'✓ Added to compare':'⇄ Compare product'}</button>
@@ -39,7 +50,26 @@ function LoginModal({ close, onSuccess, initialMode = 'user-login' }) {
   }
   return <div className="shade" onClick={close}><form className="modal" onSubmit={submit} onClick={e=>e.stopPropagation()}><button type="button" className="x" onClick={close}>×</button><div className="login-tabs"><button type="button" className={!isAdmin?'active':''} onClick={()=>{setMode('user-login');setError('')}}>User Login</button><button type="button" className={isAdmin?'active':''} onClick={()=>{setMode('admin-login');setEmail('admin@electromart.com');setPassword('');setError('')}}>Admin Login</button></div><h2>{isAdmin?'Admin Portal':mode==='user-register'?'Create account':'Welcome back'}</h2><p className="muted">{isAdmin?'Sign in as administrator to add, edit or remove products.':'Shop products with your ElectroMart user account.'}</p><label>Email<input required type="email" value={email} onChange={e=>setEmail(e.target.value)} autoComplete="username" /></label><label>Password<input required minLength="8" type="password" value={password} onChange={e=>setPassword(e.target.value)} autoComplete={mode==='user-register'?'new-password':'current-password'} /></label>{isAdmin&&<p className="admin-demo-hint">Demo admin: admin@electromart.com · Password: Admin@12345</p>}{error&&<p className="error">{error}</p>}<button className="add full">{isAdmin?'Sign in as Admin':mode==='user-register'?'Create User Account':'Sign In'}</button>{!isAdmin&&<p className="switch" onClick={()=>{setMode(mode==='user-login'?'user-register':'user-login');setError('')}}>{mode==='user-login'?'New here? Create user account':'Already registered? Sign in'}</p>}</form></div>
 }
+function SystemTelemetry({ apiError, loading, pingLatency }) {
+  const [now, setNow] = useState(() => new Date())
+  const [buffer, setBuffer] = useState(38)
+  useEffect(() => {
+    const timer = window.setInterval(() => { setNow(new Date()); setBuffer(24 + Math.floor(Math.random() * 58)) }, 1000)
+    return () => window.clearInterval(timer)
+  }, [])
+  const link = apiError ? 'API LINK OFFLINE' : loading ? 'API LINK SYNCING' : 'API LINK ONLINE'
+  return <div className="telemetry-bar" aria-label="System telemetry">
+    <span className="telemetry-brand"><i /> EM / NEXUS <b>SYS.TELEMETRY</b></span>
+    <span className="telemetry-item"><i className={!apiError ? 'telemetry-dot' : 'telemetry-dot offline'} />{link}</span>
+    <span className="telemetry-item">◷ <b>{now.toLocaleTimeString('en-GB', { hour12: false })}</b></span>
+    <span className="telemetry-item">PING <b>{pingLatency == null ? '—' : `${pingLatency} ms`}</b></span>
+    <span className="telemetry-memory"><span>BUFFER <b>{buffer}%</b></span><i><b style={{width:`${buffer}%`}} /></i></span>
+    <span className="telemetry-demo">CLIENT-SIDE DEMO METRICS</span>
+  </div>
+}
+
 export default function App() {
+  const [pingLatency, setPingLatency] = useState(null)
   const [products,setProducts] = useState([]), [loading,setLoading] = useState(true), [apiError,setApiError] = useState('')
   const [query,setQuery] = useState(''), [category,setCategory] = useState('All')
   const [cart,setCart] = useState(() => JSON.parse(localStorage.getItem('emart_cart') || '[]'))
@@ -50,8 +80,10 @@ export default function App() {
   const [botMessages,setBotMessages] = useState([{from:'bot',text:'Hi! I’m ElectroBuddy 🤖 Tell me your budget or what gadget you need. I’ll find matches from this store catalogue.'}])
   const [coupon,setCoupon] = useState(''), [appliedCoupon,setAppliedCoupon] = useState(''), [couponMessage,setCouponMessage] = useState('')
   async function loadProducts() {
+    const requestStarted = Date.now()
     try {
       const data = await getProducts()
+      setPingLatency(Date.now() - requestStarted)
       setProducts(data)
       setApiError('')
       return data
@@ -104,14 +136,22 @@ export default function App() {
   function updateQty(id,d){setCart(old=>old.map(p=>p.id===id?{...p,qty:p.qty+d}:p).filter(p=>p.qty>0))}
   function logout(){localStorage.removeItem('emart_token');localStorage.removeItem('emart_user');localStorage.removeItem('emart_role');setUser('');setIsAdmin(false)}
   return <div data-theme={dark?'dark':'light'} className="app">
+    <SystemTelemetry apiError={apiError} loading={loading} pingLatency={pingLatency}/>
     <Header query={query} setQuery={setQuery} category={category} setCategory={setCategory} cartCount={cartCount} onLogin={()=>{setLoginMode('user-login');setLoginOpen(true)}} onAdminLogin={()=>{setLoginMode('admin-login');setLoginOpen(true)}} user={user} admin={isAdmin} onLogout={logout} dark={dark} setDark={setDark}/>
     <main className="container">
-      <section className="hero"><div className="hero-copy"><span className="eyebrow">⚡ THE FUTURE, DELIVERED</span><h1>Next-Gen Tech & Gadgets at <span>ElectroMart</span></h1><p>Discover powerful devices, immersive audio and smarter everyday technology — all in one place.</p><button onClick={()=>document.getElementById('products')?.scrollIntoView({behavior:'smooth'})}>Explore Collection →</button></div><div className="hero-art" aria-hidden="true"><span>✦</span><div className="orb">EM</div><b>TECH<br/>FOR ALL</b></div></section>
-      <section className="features"><div><b>🚚 Fast Delivery</b><small>Quick dispatch on orders</small></div><div><b>🛡️ Trusted Quality</b><small>Reliable electronics</small></div><div><b>💳 Easy Payments</b><small>Simple checkout demo</small></div><div><b>⭐ Curated Tech</b><small>Popular picks in one place</small></div></section>
+      <section className="system-ribbon" aria-label="Store system status">
+        <span className="system-live"><i></i> SYSTEM ONLINE</span>
+        <span><b>✦</b> SMART MATCH</span>
+        <span><b>↗</b> LIVE CATALOGUE VIEW</span>
+        <span><b>⌁</b> SECURE DEMO CHECKOUT</span>
+        <span className="ribbon-note">ELECTROMART // NEXT-GEN COMMERCE</span>
+      </section>
+      <section className="hero"><div className="hero-copy"><span className="eyebrow hero-kicker"><span className="kicker-dot"></span> THE FUTURE, DELIVERED · SERIES 02</span><h1>Next-Gen Tech & Gadgets at <span>ElectroMart</span></h1><p>Discover powerful devices, immersive audio and smarter everyday technology — all in one place.</p><button onClick={()=>document.getElementById('products')?.scrollIntoView({behavior:'smooth'})}>Explore Collection →</button></div><div className="hero-art" aria-hidden="true"><span>✦</span><div className="orb">EM<span className="orb-spark">✦</span></div><b>TECH<br/>FOR ALL</b><div className="orbit orbit-one"></div><div className="orbit orbit-two"></div><div className="hero-scan"></div></div></section>
+      <section className="features"><div><span className="feature-icon">↗</span><b>Fast Delivery</b><small>Quick dispatch on orders</small><em>01 / SPEED</em></div><div><span className="feature-icon">⬡</span><b>Trusted Quality</b><small>Curated electronics</small><em>02 / TRUST</em></div><div><span className="feature-icon">⌁</span><b>Easy Payments</b><small>Simple checkout demo</small><em>03 / SIMPLE</em></div><div><span className="feature-icon">✦</span><b>Smart Discovery</b><small>Find tech that fits you</small><em>04 / INTELLIGENCE</em></div></section>
       <section id="products" className="section-head"><div><span className="eyebrow">OUR COLLECTION</span><h2>{category==='All'?'Featured Products':category}</h2><p className="muted">{shown.length} products found</p></div><div className="controls"><label>Max price <b>{money(maxPrice)}</b><input type="range" min="10000" max="170000" step="5000" value={maxPrice} onChange={e=>setMaxPrice(Number(e.target.value))}/></label><select value={sort} onChange={e=>setSort(e.target.value)}><option value="featured">Featured</option><option value="price-asc">Price: Low to High</option><option value="price-desc">Price: High to Low</option></select><span className="mode-hint">{dark?'Dark mode on':'Light mode'}</span></div></section>
       {apiError&&<div className="notice">{apiError} <code>http://localhost:8082/api/products</code></div>}
-      {loading?<p className="loading">Loading products…</p>:<section className="products-grid">{shown.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} toggleWish={id=>setWishlist(w=>w.includes(id)?w.filter(x=>x!==id):[...w,id])} wished={wishlist.includes(p.id)} compared={compareIds.includes(p.id)} toggleCompare={toggleCompare}/>)}</section>}
-      {!loading&&!shown.length&&!apiError&&<p className="loading">No products match. Try another category or search.</p>}
+      {loading?<div className="loading-pod"><span className="cyber-spinner"/><b>Synchronizing product database...</b><small>Establishing secure catalogue link</small></div>:<section className="products-grid">{shown.map(p=><ProductCard key={p.id} product={p} addToCart={addToCart} toggleWish={id=>setWishlist(w=>w.includes(id)?w.filter(x=>x!==id):[...w,id])} wished={wishlist.includes(p.id)} compared={compareIds.includes(p.id)} toggleCompare={toggleCompare}/>)}</section>}
+      {!loading&&!shown.length&&!apiError&&<div className="empty-pod"><span>⌕</span><b>NO MATCHING SIGNALS</b><p>No products found in this scan. Adjust your search or reset the active filters.</p><button className="ghost" onClick={()=>{setQuery('');setCategory('All');setMaxPrice(170000)}}>Reset scan parameters</button></div>}
       {wishlist.length>0&&<section className="wishlist-section" id="wishlist"><div className="section-head wishlist-heading"><div><span className="eyebrow">SAVED FOR LATER</span><h2>My Wishlist ♥</h2><p className="muted">Your saved products stay on this device.</p></div></div><div className="products-grid">{products.filter(p=>wishlist.includes(p.id)).map(p=><article className="product wishlist-card" key={p.id}><img src={p.imageUrl||'https://placehold.co/600x400?text=ElectroMart'} alt={p.name}/><div className="product-content"><small>{p.category}</small><h3>{p.name}</h3><div className="price">{money(p.price)}</div><div className="actions"><button className="add" onClick={()=>addToCart(p)}>Add to Cart</button><button className="heart active" onClick={()=>setWishlist(w=>w.filter(id=>id!==p.id))} aria-label={'Remove '+p.name+' from wishlist'}>♥</button></div></div></article>)}</div></section>}
       {compareIds.length>0&&<section className="compare-section" id="comparison"><div className="compare-heading"><div><span className="eyebrow">SIDE-BY-SIDE</span><h2>Product comparison</h2><p className="muted">Select up to 3 products. Compare price, rating and description side by side.</p><small className="muted">*Value index is a simple rating-to-price indicator, not a manufacturer specification.</small></div><button className="ghost compare-clear" onClick={()=>setCompareIds([])}>Clear comparison</button></div><div className="compare-table-wrap"><table className="compare-table"><thead><tr><th>Specification</th>{comparedProducts.map(p=><th key={p.id}>{p.name}<button className="compare-remove" onClick={()=>toggleCompare(p.id)} aria-label={'Remove '+p.name}>×</button></th>)}</tr></thead><tbody><tr><th>Category</th>{comparedProducts.map(p=><td key={p.id}>{p.category||'—'}</td>)}</tr><tr><th>Price</th>{comparedProducts.map(p=><td key={p.id} className="compare-price">{money(p.price)}</td>)}</tr><tr><th>Rating</th>{comparedProducts.map(p=><td key={p.id}>★ {Number(p.rating||4.5).toFixed(1)}</td>)}</tr><tr><th>Demo price with SAVE5</th>{comparedProducts.map(p=><td key={p.id}>{money(Number(p.price)*0.95)} <small className="muted">(5% demo coupon)</small></td>)}</tr><tr><th>Value index*</th>{comparedProducts.map(p=><td key={p.id}>{(Number(p.rating||4.5)*10000/Math.max(1,Number(p.price))).toFixed(2)}</td>)}</tr><tr><th>Description</th>{comparedProducts.map(p=><td key={p.id}>{p.description||'Not provided'}</td>)}</tr><tr><th>Action</th>{comparedProducts.map(p=><td key={p.id}><button className="add" onClick={()=>addToCart(p)}>Add to cart</button></td>)}</tr></tbody></table></div></section>}
       {isAdmin ? <section className="admin-dashboard"><div className="admin-dashboard-heading"><span className="eyebrow">ADMINISTRATOR WORKSPACE</span><h2>🛡️ Product Control Centre</h2><p className="muted">Only the signed-in admin can add, edit, or delete catalogue products.</p></div><ProductManager products={products} onChanged={loadProducts} /></section> : <section className="admin-callout"><div><span className="eyebrow">SELLER / ADMIN ACCESS</span><h2>Manage the ElectroMart catalogue</h2><p className="muted">Product creation and editing are available only after Admin Login.</p></div><button className="add" onClick={()=>{setLoginMode('admin-login');setLoginOpen(true)}}>🛡️ Admin Login</button></section>}

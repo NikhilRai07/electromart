@@ -44,3 +44,7 @@ After updating, run from the project root:
 ```powershell
 docker compose up --build
 ```
+
+
+## ElectroMart Nexus UI update
+The frontend now includes a neon-glass visual system, animated hero orbit/scanning effects, subtle grid ambience, entrance motion, responsive system-status ribbon, enhanced feature tiles, and refined hover/focus states. Existing flows (catalogue API, user/admin login, CRUD, wishlist, comparison, cart, demo coupons, and ElectroBuddy) are preserved. Animations respect `prefers-reduced-motion`.
