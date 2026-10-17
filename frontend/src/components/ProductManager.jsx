@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { createProduct, updateProduct, deleteProduct } from '../api'
 
-const emptyForm = { name: '', category: 'Mobiles', price: '', rating: '4.5', description: '', imageUrl: '' }
+const emptyForm = { name: '', category: 'Mobiles', price: '', rating: '', stock: '', description: '', imageUrl: '' }
 
 export default function ProductManager({ products, onChanged }) {
   const [form, setForm] = useState(emptyForm)
@@ -15,7 +15,7 @@ export default function ProductManager({ products, onChanged }) {
     setEditingId(product.id)
     setForm({
       name: product.name || '', category: product.category || 'Mobiles',
-      price: String(product.price ?? ''), rating: String(product.rating ?? 4.5),
+      price: String(product.price ?? ''), rating: product.rating == null ? '' : String(product.rating), stock: product.stock == null ? '' : String(product.stock),
       description: product.description || '', imageUrl: product.imageUrl || ''
     })
     setMessage('Editing product #' + product.id)
@@ -27,7 +27,7 @@ export default function ProductManager({ products, onChanged }) {
   async function submit(e) {
     e.preventDefault()
     setBusy(true); setMessage(''); setError('')
-    const payload = { ...form, price: Number(form.price), rating: Number(form.rating) }
+    const payload = { ...form, price: Number(form.price), rating: form.rating === '' ? null : Number(form.rating), stock: form.stock === '' ? null : Number(form.stock) }
     try {
       if (editingId) await updateProduct(editingId, payload)
       else await createProduct(payload)
@@ -61,7 +61,8 @@ export default function ProductManager({ products, onChanged }) {
         {['Mobiles','Laptops','TV','Audio','Gaming','Wearables','Accessories'].map(c => <option key={c}>{c}</option>)}
       </select></label>
       <label>Price (₹)<input name="price" type="number" min="0" step="0.01" value={form.price} onChange={change} required /></label>
-      <label>Rating<input name="rating" type="number" min="0" max="5" step="0.1" value={form.rating} onChange={change} /></label>
+      <label>Catalogue rating (optional)<input name="rating" type="number" min="0" max="5" step="0.1" value={form.rating} onChange={change} placeholder="Not provided" /></label>
+      <label>Stock quantity (optional)<input name="stock" type="number" min="0" step="1" value={form.stock} onChange={change} placeholder="Not provided" /></label>
       <label className="manager-wide">Image URL<input name="imageUrl" type="url" value={form.imageUrl} onChange={change} placeholder="https://..." /></label>
       <label className="manager-wide">Description<textarea name="description" value={form.description} onChange={change} rows="2" maxLength="1200" /></label>
       <div className="manager-wide manager-actions"><button className="add" disabled={busy}>{busy ? 'Saving…' : editingId ? 'Update Product' : 'Create Product'}</button>
@@ -71,7 +72,7 @@ export default function ProductManager({ products, onChanged }) {
     {error && <p className="error" role="alert">{error}</p>}
     <h3>Saved products ({products.length})</h3>
     <div className="manager-list">{products.map(p => <div className="manager-row" key={p.id}>
-      <div><b>{p.name}</b><small>#{p.id} · {p.category} · ₹{Number(p.price || 0).toLocaleString('en-IN')}</small></div>
+      <div><b>{p.name}</b><small>#{p.id} · {p.category} · ₹{Number(p.price || 0).toLocaleString('en-IN')} · Stock {p.stock ?? 'not provided'}</small></div>
       <div className="manager-actions"><button className="ghost" onClick={() => edit(p)} disabled={busy}>Edit</button><button className="remove" onClick={() => remove(p)} disabled={busy}>Delete</button></div>
     </div>)}</div>
   </section>

@@ -15,3 +15,7 @@ export default api
 export const createProduct = async (product) => (await api.post('/products', product)).data
 export const updateProduct = async (id, product) => (await api.put(`/products/${id}`, product)).data
 export const deleteProduct = async (id) => api.delete(`/products/${id}`)
+
+export const getProductReviews = async (productId) => (await api.get(`/products/${productId}/reviews`)).data
+export const getAllReviews = async () => (await api.get('/reviews')).data
+export const submitReview = async (review) => (await api.post('/reviews', review)).data

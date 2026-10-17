@@ -35,7 +35,7 @@ public class ProductController {
         requireAdmin(request);
         Product p = one(id);
         p.setName(input.getName()); p.setCategory(input.getCategory()); p.setPrice(input.getPrice());
-        p.setRating(input.getRating()); p.setDescription(input.getDescription()); p.setImageUrl(input.getImageUrl());
+        p.setRating(input.getRating()); p.setDescription(input.getDescription()); p.setImageUrl(input.getImageUrl()); p.setStock(input.getStock());
         return repository.save(p);
     }
     @DeleteMapping("/{id}")

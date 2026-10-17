@@ -1,50 +1,72 @@
-# ElectroMart 2.0 — Full-stack demo
+# ElectroMart Nexus — Multi-page demo
 
-A React + Vite storefront with a Spring Boot REST API and MySQL database. The UI has been refreshed with a premium navy/electric-orange look and mobile-responsive styling.
+A React + Vite storefront with a Spring Boot REST API and MySQL. The frontend includes catalog browsing, product details, cart/checkout, wishlist, sign-in/sign-up, an admin product manager, demo order tracking, exchange/repair/warranty forms, and two local rule-based assistants.
 
-## Added / polished features
-- Persistent light/dark theme toggle.
-- ElectroBuddy shopping helper: matches requests against the live product catalogue and can filter by product category and budget. It is rule-based demo logic, not a connected external AI model.
-- Product comparison for up to 3 products: category, price, rating, description, a demo SAVE5 price, and a clearly labelled rating-to-price value index.
-- Wishlist section saved in the browser.
-- Demo coupons: `SAVE5` gives 5% off; `SMART10` gives 10% off carts of at least ₹20,000, capped at ₹5,000.
-- Search, category filters, maximum-price filter, sorting, cart quantity controls, login/register, and existing product CRUD manager.
+## Run locally (Docker Desktop required)
 
-**Important:** Coupons and prices are demo-only. Checkout does not process payments. ElectroBuddy uses catalogue data and local rules; it is not connected to a live AI API or live retailer price feed.
-
-## Run with Docker (recommended)
-1. Extract the ZIP.
-2. Open PowerShell in the extracted project root (the folder containing `docker-compose.yml`).
+1. Open PowerShell in this folder (the folder containing `docker-compose.yml`).
+2. Start Docker Desktop and wait until it says Docker is running.
 3. Run:
    ```powershell
-   docker compose up --build
+   docker compose up --build -d
    ```
-4. Open `http://localhost:5173`.
-5. Keep that terminal open while using the site. Press `Ctrl+C` to stop it.
+4. Open:
+   - Storefront: http://localhost:5173
+   - REST API: http://localhost:8082/api/products
+   - MySQL host port: `3307` (container port `3306`)
+5. To see logs: `docker compose logs -f backend`
+6. To stop: `docker compose down` (keeps the database volume); to also erase local DB data: `docker compose down -v`.
 
-If you are updating an already-extracted project, replace the files under `frontend/src/` with the versions in this ZIP, then run `docker compose up --build` again from the project root.
+## Demo admin
 
-## Local frontend development (optional)
-```powershell
-cd frontend
-npm install
-npm run dev
-```
-The API should be running at `http://localhost:8082` and MySQL should be available via the root Docker Compose setup.
+- Email: `admin@electromart.com`
+- Password: `Admin@12345`
+- Admin portal: http://localhost:5173/admin/login
 
-## Separate User and Admin access (demo)
-- **User Login** is for shopping and account registration.
-- **Admin Login** opens the Product Control Centre; only an admin JWT can create, update, or delete catalogue products through the API.
-- Demo admin credentials: `admin@electromart.com` / `Admin@12345`.
-- Change `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `docker-compose.yml` before any shared/public deployment. These are demo credentials, not production secrets.
-- The database seeder adds ten sample products by name without deleting existing catalogue entries.
+These credentials and secrets are for local demonstration only. Before any public deployment, use unique strong secrets, configure them as host environment variables, and do not publish them in source control.
 
-After updating, run from the project root:
+## Routes
 
-```powershell
-docker compose up --build
-```
+- `/` home
+- `/products`, `/product/:id` catalogue and detail
+- `/cart`, `/checkout`, `/orders`, `/wishlist`
+- `/login`, `/signup`
+- `/admin/login`, `/admin`
+- `/exchange`, `/repair`, `/warranty`
+
+## Important demo limitations
+
+- Product catalogue, user credentials and admin product CRUD use the Spring Boot API + MySQL.
+- Cart, wishlist, demo orders, service requests and their statuses are stored in browser local storage in this version. They are not shared between different users/devices and will not be suitable for production order fulfilment.
+- Payment choices are simulations; no payment is processed. Repair/exchange/warranty flows do not contact a real technician or provider.
+- The assistants are rule-based demos, not live AI agents.
+- For a real public store, implement server-side order/service tables and ownership/authorization, payment gateway integration, email notifications, rate limiting, monitoring, and production database backups.
+
+## Public deployment outline
+
+Deploy the frontend as a static site and the Spring Boot API as a separate web service; use a managed MySQL database. Configure `VITE_API_URL` at frontend build time to point to the deployed API base URL (ending in `/api`). Configure the backend's `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `JWT_SECRET`, `FRONTEND_ORIGIN`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD` in the API host's environment settings. Set CORS to the exact deployed frontend origin. Never use the demo credentials or database passwords on the public internet.
 
 
-## ElectroMart Nexus UI update
-The frontend now includes a neon-glass visual system, animated hero orbit/scanning effects, subtle grid ambience, entrance motion, responsive system-status ribbon, enhanced feature tiles, and refined hover/focus states. Existing flows (catalogue API, user/admin login, CRUD, wishlist, comparison, cart, demo coupons, and ElectroBuddy) are preserved. Animations respect `prefers-reduced-motion`.
+## Aura Edition updates
+
+This edition adds a brand-focused home page (without product cards or prices), a green/violet light-and-dark visual system, product comparison, a product combination builder, and a backend-backed customer review workflow.
+
+### Added routes
+- `/` — Aura Edition home page
+- `/shop` and `/products` — catalogue loaded from the backend
+- `/products/:id` and `/product/:id` — product details
+- `/compare` — compare up to four catalogue products
+- `/product-combinations` — manually combine products and total their listed prices
+- `/reviews` — view reviews submitted through the review API
+
+### Review API
+- `GET /api/reviews` — all submitted reviews and aggregate summary
+- `GET /api/products/{productId}/reviews` — reviews for one product and aggregate summary
+- `POST /api/reviews` — submit a review
+
+Review submission expects `productId`, `reviewerName`, `rating` (1–5), `title` (optional), and `comment` (5–2000 characters). Reviews are persisted by Spring Data JPA in the `product_reviews` table. Since this project does not currently enforce customer authentication for review submissions, reviews are displayed as visitor-submitted feedback and are **not** marked as verified purchases.
+
+### Run locally
+From the project root, run `docker compose up --build`. The frontend is exposed on `http://localhost:5173`, the API on `http://localhost:8082`, and MySQL on host port `3307`. The Docker Compose credentials and administrator credentials are for local development only; change them and configure a long random `JWT_SECRET` before deploying publicly.
+
+The catalogue requires the backend API. If the API is offline, the frontend shows empty/error states rather than silently substituting a fabricated catalogue. Checkout remains a local browser draft until a real order API and payment provider are integrated; it does not process live payments or send real orders.

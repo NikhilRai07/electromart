@@ -1,0 +1,15 @@
+import { useMemo } from 'react'
+import { Link } from 'react-router-dom'
+import { money, useStore } from '../context/StoreContext'
+export default function Compare() {
+ const {products,loading,compareIds,toggleCompare,clearCompare}=useStore()
+ const selected=compareIds
+ const available=useMemo(()=>products.filter(p=>selected.includes(String(p.id))),[products,selected])
+ const toggle=id=>toggleCompare(id)
+ const fields=[['Category',p=>p.category||'Not provided'],['Price',p=>money(p.price)],['Brand',p=>p.brand||'Not provided'],['Description',p=>p.description||'Not provided'],['Availability',p=>p.stock==null?'Not provided':Number(p.stock)>0?'In stock':'Out of stock'],['Rating',p=>p.rating==null?'Not provided':`${Number(p.rating).toFixed(1)} / 5`]]
+ return <div className="wrap tool-page"><div className="breadcrumbs"><Link to="/">Home</Link> / <b>Product comparison</b></div><header className="tool-heading"><span className="eyebrow">MAKE AN INFORMED CHOICE</span><h1>Product comparison</h1><p>Select two to four products from the live catalogue to compare the details that are available.</p></header>
+ <section className="tool-panel"><div className="tool-panel-head"><div><h2>Choose products</h2><p>{selected.length} of 4 selected · choose at least 2 to compare</p></div><button className="btn btn-outline" onClick={clearCompare}>Clear selection</button></div>
+ {loading?<p className="muted">Loading catalogue…</p>:products.length===0?<div className="empty-state"><h2>Catalogue unavailable</h2><p>Connect the backend and add products to begin comparing.</p></div>:<div className="tool-product-picker">{products.map(p=><label className={'tool-pick '+(selected.includes(String(p.id))?'is-selected':'')} key={p.id}><input type="checkbox" checked={selected.includes(String(p.id))} disabled={!selected.includes(String(p.id))&&selected.length>=4} onChange={()=>toggle(p.id)}/><span><b>{p.name}</b><small>{p.category||'Electronics'} · {money(p.price)}</small></span></label>)}</div>}</section>
+ {available.length>=2?<section className="tool-panel compare-panel"><h2>Side-by-side details</h2><div className="compare-scroll"><table className="compare-table"><thead><tr><th>Specification</th>{available.map(p=><th key={p.id}><div className="compare-product-name">{p.name}</div><Link to={'/product/'+p.id} className="text-link">View details ↗</Link><button className="remove-compare" onClick={()=>toggle(p.id)}>Remove</button></th>)}</tr></thead><tbody>{fields.map(([label,get])=><tr key={label}><th>{label}</th>{available.map(p=><td key={p.id} className={label==='Price'&&Number(p.price)===Math.min(...available.map(x=>Number(x.price)))?'price-lowest':''}>{get(p)}</td>)}</tr>)}</tbody></table></div><p className="muted compare-note">Only fields supplied by the catalogue are shown. A lower price is a price difference, not a quality recommendation.</p></section>:<div className="tool-empty"><span>⇄</span><h2>Your comparison starts here</h2><p>Select at least two products above to see their available details side by side.</p><Link to="/shop" className="btn btn-primary">Browse catalogue</Link></div>}
+ </div>
+}
